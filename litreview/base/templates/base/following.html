@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Follow</title>
+</head>
+<body>
+    <p>Here I want to display three things. The first one is a search box. For easiness,
+        I will require a perfect match between the submitted username and the user's
+        username. I suppose there should be some error handling. If the submitted username
+        doesn't exist, the user should be informed and able to resubmit another username.
+        If there's an exact match, then the user is added to the following table.
+    </p>
+    <p>The second one is a table containing the followed users. There's a button next to
+        each user's name allowing unfollowing.
+        The third one is a table containing the users' followers.
+    </p>
+    {% if following %}
+    {% for f in following %}
+        <li>{{f.username}} is following you</li>
+    {% endfor %}
+    {% else %}
+        <p>No one is following you yet. But the more
+        you post reviews, the more likely people will
+        follow you.</p>
+    {% endif %}
+    <br><br>
+    {% if followers %}
+    {% for f in followers %}
+        <li>you are following {{f.username}}</li>
+    {% endfor %}
+    {% else %}
+        <p>You aren't following anyone. But you can
+        use the search box above if needed.</p>
+    {% endif %}
+
+    <p>the connected user: {{user}}</p>
+</body>
+</html>

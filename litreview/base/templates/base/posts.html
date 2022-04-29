@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Posts</title>
+</head>
+<body>
+    Here will be displayed all the user's tickets and reviews. For each of those
+    posts he will have the possibility to edit or delete them.
+    <br>
+    {% if posts %}
+        {% for post in posts %}
+            {% if post.content_type == "TICKET" %}
+                <li>{% include "base/ticket_snippet.html" %}
+                    (<a href="{% url 'base:ticket_update' post.id %}">Update</a> |
+                    <a href="{% url 'base:ticket_delete' post.id %}">Delete</a>) <br/></li>
+            {% elif post.content_type == "REVIEW" %}
+                <li>{% include "base/review_snippet.html" %}
+                    (<a href="{% url 'base:review_update' post.id %}">Update</a> |
+                    <a href="{% url 'base:review_delete' post.id %}">Delete</a>) <br/></li>
+            {% else %}
+                <li>it's an error</li>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <p>you have no posts.</p>
+    {% endif %}
+</body>
+</html>
