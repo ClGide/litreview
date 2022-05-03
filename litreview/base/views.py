@@ -54,18 +54,15 @@ class Feed(LoginRequiredMixin, View):
 class TicketCreation(LoginRequiredMixin, View):
     @staticmethod
     def get(request):
-        ticket_form = modelform_factory(models.Ticket, exclude=["user"])
+        ticket_form = forms.TicketForm()
         ctx = {"form": ticket_form}
         return render(request, "base/ticket_form.html", ctx)
 
     @staticmethod
     def post(request):
-        title = request.POST.get("title")
-        description = request.POST.get("description")
-        user = request.user
-        ticket = models.Ticket(title=title,
-                               description=description,
-                               user=user)
+        data_for_ticket = forms.TicketForm(request.POST)
+        ticket = data_for_ticket.save(commit=False)
+        ticket.user = request.user
         ticket.save()
         return redirect(reverse_lazy("base:posts"))
 
@@ -73,34 +70,29 @@ class TicketCreation(LoginRequiredMixin, View):
 class ReviewCreationDirect(LoginRequiredMixin, View):
     @staticmethod
     def get(request):
-        review_form = forms.ReviewDirectForm()
-        ctx = {"review_form": review_form}
+        ticket_creation = forms.TicketForm()
+        review_form = forms.ReviewForm()
+        ctx = {"ticket_form": ticket_creation,
+               "review_form": review_form}
         return render(request, "base/review_direct_form.html", ctx)
 
     @staticmethod
     def post(request):
-        ticket_title = request.POST.get("ticket_title")
-        ticket_description = request.POST.get("ticket_description")
-        user = request.user
-        ticket = models.Ticket(title=ticket_title,
-                               description=ticket_description,
-                               user=user)
+        data_for_ticket = forms.TicketForm(request.POST)
+        ticket = data_for_ticket.save(commit=False)
+        ticket.user = request.user
         ticket.save()
 
-        review_rating = request.POST.get("review_rating")
-        review_headline = request.POST.get("review_headline")
-        review_body = request.POST.get("review_body")
-        review = models.Review(ticket=ticket,
-                               rating=review_rating,
-                               headline=review_headline,
-                               body=review_body,
-                               user=user)
+        data_for_review = forms.ReviewtForm()
+        review = data_for_review.save(commit=False)
+        review.ticket = ticket
+        review.user = request.user
         review.save()
 
         return redirect(reverse_lazy("base:posts"))
 
 
-@login_required(redirect_field_name=reverse_lazy("base:feed"))
+@login_required(redirect_field_name=reverse_lazy("base:landing page"))
 def review_create_response(request, ticket_pk):
     # I should find a more straightforward way of inserting data into
     # context. Now I am creating a one item list.
@@ -108,20 +100,26 @@ def review_create_response(request, ticket_pk):
     # where data on multiple tickets is displayed and in a template
     # where there's only one ticket.
 
-    ticket = [models.Ticket.objects.get(id=ticket_pk)]
-    review_form = forms.ReviewResponseForm()
-    ctx = {"posts": ticket,
+    ticket_list = [models.Ticket.objects.get(id=ticket_pk)]
+    ticket = ticket_list[0]
+    review_form = forms.ReviewForm()
+    ctx = {"posts": ticket_list,
            "review_form": review_form}
 
-    if request.method == "post":
-        review = forms.ReviewResponseForm(request.post)
-        if not review.is_valid():
-            raise ValidationError(review.errors)
-        review.save(commit=False)
-        review.ticket = ticket
-        review.user = request.user
-        review.save(commit=True)
-        return redirect(reverse_lazy("base:posts"))
+    # Instead of a class-based view with two methods handling the two
+    # request methods GET and POST, I am using the function-based view.
+    # That's because I need the instance of ticket retrieved in the get
+    # response. Indeed, the review attribute ticket will take that value.
+    if request.method == "POST":
+        data_for_review = forms.ReviewForm(request.POST)
+        if data_for_review.is_valid():
+            review = data_for_review.save(commit=False)
+            review.ticket = ticket
+            review.user = request.user
+            review.save()
+
+            ticket.has_review = True
+            return redirect(reverse_lazy("base:posts"))
 
     return render(request, "base/review_response_form.html", ctx)
 
@@ -148,7 +146,7 @@ class Posts(LoginRequiredMixin, View):
 
 class EditTicket(LoginRequiredMixin, UpdateView):
     model = models.Ticket
-    fields = "__all__"
+    fields = ["title", "description"]
     success_url = reverse_lazy('base:posts')
 
 

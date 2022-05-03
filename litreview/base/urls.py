@@ -16,9 +16,11 @@ urlpatterns = [
     path("create_ticket/",
          views.TicketCreation.as_view(),
          name="ticket_creation"),
+
     path("create_review_direct/",
          views.ReviewCreationDirect.as_view(),
          name="review_creation_direct"),
+
     path("<int:ticket_pk>/create_review_response/",
          views.review_create_response,
          name="review_create_response"),
