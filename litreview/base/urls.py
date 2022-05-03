@@ -12,15 +12,16 @@ urlpatterns = [
          name='landing page'),
     path("signup/", views.SignUpView.as_view(), name="signup"),
     path("accounts/profile/", views.Feed.as_view(), name="feed"),
+
     path("create_ticket/",
          views.TicketCreation.as_view(),
          name="ticket_creation"),
-    path("create_review_response/",
-         views.ReviewCreationResponse.as_view(),
-         name="review_creation_response"),
     path("create_review_direct/",
          views.ReviewCreationDirect.as_view(),
          name="review_creation_direct"),
+    path("<int:ticket_pk>/create_review_response/",
+         views.review_create_response,
+         name="review_create_response"),
 
     path("posts/",
          views.Posts.as_view(),
@@ -38,8 +39,14 @@ urlpatterns = [
          views.DeleteReview.as_view(),
          name="review_delete"),
 
-
     path("following/",
          views.Following.as_view(),
          name="following"),
+    path("following/<int:pk>/unfollow/",
+         views.Unfollow.as_view(),
+         name="unfollow"),
+    path("following/follow/",
+         views.Follow.as_view(),
+         name="search_result"),
 ]
+

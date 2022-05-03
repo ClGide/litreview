@@ -5,6 +5,10 @@
     <title>Follow</title>
 </head>
 <body>
+    {% extends "base/base.html" %}
+
+    {% block page %}
+
     <p>Here I want to display three things. The first one is a search box. For easiness,
         I will require a perfect match between the submitted username and the user's
         username. I suppose there should be some error handling. If the submitted username
@@ -14,6 +18,14 @@
     <p>The second one is a table containing the followed users. There's a button next to
         each user's name allowing unfollowing.
         The third one is a table containing the users' followers.
+
+    <h2> Follow new users </h2>
+    <form action="{% url 'base:search_result' %}" method="GET">
+        <input name="username" type="text" placeholder="username">
+        <input type="submit" value="submit">
+    </form>
+
+
     </p>
     {% if following %}
     {% for f in following %}
@@ -28,12 +40,14 @@
     {% if followers %}
     {% for f in followers %}
         <li>you are following {{f.username}}</li>
+        <li><a href="{% url 'base:unfollow' f.pk %}">Unfollow</a></li>
     {% endfor %}
     {% else %}
         <p>You aren't following anyone. But you can
         use the search box above if needed.</p>
     {% endif %}
 
-    <p>the connected user: {{user}}</p>
+    {% endblock %}
+
 </body>
 </html>

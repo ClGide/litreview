@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Base</title>
+</head>
+<body>
+<header>
+    <div style="display: grid">
+        <h1 style="text-align: center;">LITReview</h1>
+        <ul style="list style: none; float: right">
+            <li style="display:inline;"><a href="{% url 'base:feed' %}">Feed</a></li>
+            <li style="display:inline;"><a href="{% url 'base:posts' %}">Posts</a></li>
+            <li style="display:inline;"><a href="{% url 'base:following' %}">Following</a></li>
+            <li style="display:inline;"><a href="{% url 'logout' %}?next={% url 'login' %}">Logout</a></li>
+        </ul>
+    </div>
+
+    {% block page %}
+        <p>Here goes the page's content</p>
+    {% endblock %}
+</header>
+</body>
+</html>

@@ -5,10 +5,17 @@
     <title>Create Review </title>
 </head>
 <body>
+    {% extends "base/base.html" %}
+
+    {% block page %}
+
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ review_form.as_p }}
         <input type="submit" value="Save">
     </form>
+
+    {% endblock %}
+
 </body>
 </html>

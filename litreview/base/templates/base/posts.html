@@ -5,6 +5,12 @@
     <title>Posts</title>
 </head>
 <body>
+    {% extends "base/base.html" %}
+
+
+    {% block page %}
+
+
     Here will be displayed all the user's tickets and reviews. For each of those
     posts he will have the possibility to edit or delete them.
     <br>
@@ -25,5 +31,7 @@
     {% else %}
         <p>you have no posts.</p>
     {% endif %}
+
+    {% endblock %}
 </body>
 </html>

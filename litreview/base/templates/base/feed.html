@@ -5,33 +5,25 @@
     <title>Feed</title>
 </head>
 <body>
-    <p>Here the user can scroll through reviews and tickets he has access
-    to. He also can choose to request a review (create ticket) or post
-    a review (up in the feed). Then, on each ticket from his feed,
-    he can choose to post a review.</p>
-    <p>{{feed}}</p>
+    {% extends "base/base.html" %}
 
-    <p><a href="{% url 'base:feed' %}">Feed</a></p>
-    <p><a href="{% url 'base:posts' %}">Posts</a></p>
-    <p><a href="{% url 'base:following' %}">Following</a></p>
-    <p><a href="{% url 'logout' %}?next={% url 'login' %}">Logout</a></p>
-
-    <p><a href="{% url 'base:ticket_creation' %}">Request a Review</a></p>
-    <p><a href="{% url 'base:review_creation_direct' %}">Post a Review</a></p>
+    {% block page %}
 
     {% if posts %}
-    {% for post in posts %}
-        {% if post.content_type == "TICKET" %}
-            {% include "base/ticket_snippet.html" %}
-        {% elif post.content_type == "REVIEW" %}
-            {% include "base/review_snippet.html" %}
-        {% else %}
-            <p>it's an error</p>
-        {% endif %}
-    {% endfor %}
+        {% for post in posts %}
+            {% if post.content_type == "TICKET" %}
+                {% include "base/ticket_snippet.html" %}
+                    <p><a href="{% url 'base:review_create_response' post.id %}">Post a Review</a></p>
+            {% elif post.content_type == "REVIEW" %}
+                {% include "base/review_snippet.html" %}
+            {% else %}
+                <p>it's an error</p>
+            {% endif %}
+        {% endfor %}
     {% else %}
         <p>There are no posts. Follow more people !</p>
     {% endif %}
 
+    {% endblock %}
 </body>
 </html>

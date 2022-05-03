@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Follow new user</title>
+</head>
+<body>
+    {% extends "base/base.html" %}
+
+    {% block page %}
+
+    {% if to_follow %}
+        {% for user in to_follow %}
+            <li>{{user.username}}</li>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{ user.id }}">
+                <input type="submit" value="Follow.">
+            </form>
+        {% endfor %}
+    {% else %}
+        <p>no user was found</p>
+    {% endif %}
+    <a href="{% url 'base:following' %}">Come back</a>
+
+    {% endblock %}
+</body>
+</html>
