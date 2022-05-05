@@ -7,14 +7,20 @@
 <body>
     {% extends "base/base.html" %}
 
+
     {% block page %}
 
+    <div style="display: grid; border: 5px transparent; padding:20px; justify-content: center">
+    <h2>Create a review</h2>
     <form method="post">
         {% csrf_token %}
+        <h4>Book/Article</h4>
+        {{ ticket_form.as_p }}
+        <h4>Review</h4>
         {{ review_form.as_p }}
         <input type="submit" value="Save">
     </form>
-
+    </div>
     {% endblock %}
 
 </body>

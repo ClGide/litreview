@@ -1,6 +1,5 @@
-from django.forms import Form, ModelForm, CharField, IntegerField
-from django.core.validators import MinValueValidator, MaxLengthValidator, MaxValueValidator
 import base.models as models
+from django.forms import ModelForm
 
 
 class TicketForm(ModelForm):
@@ -16,4 +15,4 @@ class TicketForm(ModelForm):
 class ReviewForm(ModelForm):
     class Meta:
         model = models.Review
-        fields = ["rating", "headline", "body"]
+        fields = ["headline", "rating", "body"]

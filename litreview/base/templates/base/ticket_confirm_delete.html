@@ -10,6 +10,7 @@
 
     {% block page %}
 
+    <div style="display: grid; border: 5px transparent; padding:20px; justify-content: center">
 
     <h1>Delete Ticket</h1>
 
@@ -21,6 +22,7 @@
       <input type="submit" onclick="window.location='{% url 'base:posts' %}' ; return false;" value="Cancel">
     </form>
 
+    </div>
     {% endblock %}
 </body>
 </html>

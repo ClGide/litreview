@@ -7,10 +7,14 @@
 <body>
     {% extends "base/base.html" %}
 
-    {% block page %}
 
-    <p><a href="{% url 'base:ticket_creation' %}">Request a Review</a></p>
-    <p><a href="{% url 'base:review_creation_direct' %}">Post a Review</a></p>
+    {% block page %}
+    <div style="display: grid; border: 5px transparent; padding:20px; justify-content: center">
+
+    <ul>
+        <li style="display:inline"><a href="{% url 'base:ticket_creation' %}">Request a Review</a></li>
+        <li style="display:inline"><a href="{% url 'base:review_creation_direct' %}">Post a Review</a></li>
+    </ul>
 
     {% if posts %}
         {% for post in posts %}
@@ -19,8 +23,10 @@
                 {% if post.has_review == False %}
                     <p><a href="{% url 'base:review_create_response' post.id %}">Post a Review</a></p>
                 {% endif %}
+                <br>
             {% elif post.content_type == "REVIEW" %}
                 {% include "base/review_snippet.html" %}
+                <br>
             {% else %}
                 <p>it's an error</p>
             {% endif %}
@@ -28,7 +34,7 @@
     {% else %}
         <p>There are no posts. Follow more people !</p>
     {% endif %}
-
+    </div>
     {% endblock %}
 </body>
 </html>

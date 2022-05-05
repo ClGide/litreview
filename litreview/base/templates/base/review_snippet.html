@@ -1,9 +1,13 @@
 
-
-    <li>{{ post.user }}</li>
+    {% if post.user == request.user %}
+        <p>You posted a review</p>
+    {% else %}
+        <p>{{post.user}} posted a review</p>
+    {% endif %}
     <li>{{ post.time_created }}</li>
-    <li>{{ post.ticket }}</li>
     <li>{{ post.rating }}</li>
     <li>{{ post.headline }}</li>
     <li>{{ post.body }}</li>
-    <br>
+
+    <li>Ticket - {{ post.ticket.user }}</li>
+    <li>{{ post.ticket.title }}</li>

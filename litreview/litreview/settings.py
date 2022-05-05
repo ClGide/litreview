@@ -24,7 +24,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # you stored the key in a .txt file 
 
 
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

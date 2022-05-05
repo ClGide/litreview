@@ -8,6 +8,7 @@
     {% extends "base/base.html" %}
 
     {% block page %}
+    <div style="display: grid; border: 5px transparent; padding:20px; justify-content: center">
 
     {% if to_follow %}
         {% for user in to_follow %}
@@ -22,7 +23,7 @@
         <p>no user was found</p>
     {% endif %}
     <a href="{% url 'base:following' %}">Come back</a>
-
+    </div>
     {% endblock %}
 </body>
 </html>
