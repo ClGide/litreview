@@ -3,14 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Review </title>
+    <style>
+        section.post {
+            display: grid;
+            justify-content: center;
+            grid-template-columns: 500px;
+            gap: 10px 0px;
+        }
+        div.post-container {
+            border: solid 1px black;
+            padding: 10px;
+        }
+  </style>
 </head>
 <body>
     {% extends "base/base.html" %}
 
 
     {% block page %}
-
-    <div style="display: grid; border: 5px transparent; padding:20px; justify-content: center">
+    <section class="post">
+    <div class="post-container">
     <h2>Create a review</h2>
     <form method="post">
         {% csrf_token %}
@@ -21,6 +33,7 @@
         <input type="submit" value="Save">
     </form>
     </div>
+    </section>
     {% endblock %}
 
 </body>

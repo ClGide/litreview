@@ -3,53 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <title>Follow</title>
+    <style>
+        .title {
+            text-align: center;
+        }
+        section {
+            display: grid;
+            border: 5px transparent;
+            padding: 20px;
+            justify-content: center;
+        }
+        table {
+            table-layout: fixed;
+            width: 330px;
+            border: 1px solid rgb(200, 200, 200);
+            letter-spacing: 1px;
+            font-size: 1.1rem;
+            padding: 0.2em;
+        }
+        td:nth-of-type(0) {
+            width: 250px;
+        }
+        td:nth-of-type(1) {
+            width: 80px;
+        }
+    </style>
 </head>
 <body>
     {% extends "base/base.html" %}
 
 
     {% block page %}
-    <h2 style="text-align: center;"> Follow new users </h2>
+    <h2 class="title"> Follow new users </h2>
 
-    <div style="display: grid; border: 5px transparent; padding:20px; justify-content: center">
+    <section>
     <form action="{% url 'base:search_result' %}" method="GET">
         <input name="username" type="text" placeholder="username">
         <input type="submit" value="submit">
     </form>
-    </div>
+    </section>
 
 
-    <h2 style="text-align: center;">Following</h2>
+    <h2 class="title">Following</h2>
 
-    <div style="display: grid; border: 5px transparent; padding:20px; justify-content: center">
+    <section>
     {% if following %}
     {% for f in following %}
-        <li>you are following {{f.username}}</li>
-        <li><a href="{% url 'base:unfollow' f.pk %}">Unfollow</a></li>
+        <table>
+            <tr>
+                <th scope="row">{{f.username}}</th>
+                <td><a href="{% url 'base:unfollow' f.pk %}">Unfollow</a></td>
+            </tr>
+        </table>
     {% endfor %}
     {% else %}
         <p>No one is following you yet. But the more
         you post reviews, the more likely people will
         follow you.</p>
     {% endif %}
-    </div>
+    </section>
 
 
     <br><br><br>
 
 
-    <h2 style="text-align: center;">Followers</h2>
+    <h2 class="title">Followers</h2>
 
-    <div style="display: grid; border: 5px transparent; padding:20px; justify-content: center">
+    <section>
     {% if followers %}
     {% for f in followers %}
-        <li>{{f.username}} is following you</li>
+        <table>
+            <tr>
+                <th scope="row">{{f.username}}</th>
+            </tr>
+        </table>
     {% endfor %}
     {% else %}
         <p>You aren't following anyone. But you can
         use the search box above if needed.</p>
     {% endif %}
-    </div>
+    </section>
     {% endblock %}
 
 </body>

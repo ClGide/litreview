@@ -1,10 +1,13 @@
 
     {% if post.user == request.user %}
-        <p>You requested a ticket</p>
+        <p>You requested a review</p>
     {% else %}
-        <p>{{post.user}} requested a ticket</p>
+        <p>{{post.user}} requested a review</p>
     {% endif %}
-
-    <li>{{ post.time_created }}</li>
-    <li>{{ post.title }}</li>
-    <li>{{ post.description }}</li>
+    <ul class="post-attributes">
+        <li class="time-created">{{ post.time_created }}</li>
+<br>
+        <li>{{ post.title }}</li>
+<br>
+        <li>{{ post.description }}</li>
+    </ul>

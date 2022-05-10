@@ -1,9 +1,13 @@
+"""Routes requests from different URLs to the corresponding HTML pages."""
+
+
 from django.contrib.auth import views as auth_views
 from django.urls import path, reverse_lazy
+
 from . import views
 
 app_name = 'base'
-urlpatterns = [
+urlpatterns: list[path] = [
     path('',
          auth_views.LoginView.as_view(
              redirect_authenticated_user=True,
@@ -11,16 +15,14 @@ urlpatterns = [
          ),
          name='landing page'),
     path("signup/", views.SignUpView.as_view(), name="signup"),
-    path("accounts/profile/", views.Feed.as_view(), name="feed"),
 
+    path("accounts/profile/", views.Feed.as_view(), name="feed"),
     path("create_ticket/",
          views.TicketCreation.as_view(),
          name="ticket_creation"),
-
     path("create_review_direct/",
          views.ReviewCreationDirect.as_view(),
          name="review_creation_direct"),
-
     path("<int:ticket_pk>/create_review_response/",
          views.review_create_response,
          name="review_create_response"),
@@ -51,4 +53,3 @@ urlpatterns = [
          views.Follow.as_view(),
          name="search_result"),
 ]
-

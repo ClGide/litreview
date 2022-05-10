@@ -1,3 +1,6 @@
+"""Used by settings.py"""
+
+
 from django.apps import AppConfig
 
 

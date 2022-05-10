@@ -1,3 +1,6 @@
+"""Classes and functions managing requests and returning response objects."""
+
+
 from itertools import chain
 
 import base.forms as forms
@@ -7,7 +10,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.db import IntegrityError
-from django.db.models import CharField, Value, Q
+from django.db.models import CharField, Value, Q, QuerySet
+from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -16,24 +20,26 @@ from django.views.generic.edit import UpdateView, DeleteView
 
 
 class SignUpView(generic.CreateView):
+    """Makes a form allowing the user to """
     form_class = UserCreationForm
-    success_url = reverse_lazy("login")
+    success_url: str = reverse_lazy("login")
     template_name = "registration/signup.html"
 
 
 class Feed(LoginRequiredMixin, View):
-    def get(self, request):
-        all_tickets = models.Ticket.objects.all()
+    def get(self, request) -> HttpResponse:
+        """retrieves the feed's content and sorts it."""
+        all_tickets: QuerySet = models.Ticket.objects.all()
         all_tickets = all_tickets.annotate(
             content_type=Value("TICKET", CharField())
         )
 
-        all_reviews = models.Review.objects.all()
+        all_reviews: QuerySet = models.Review.objects.all()
         all_reviews = all_reviews.annotate(
             content_type=Value("REVIEW", CharField())
         )
 
-        posts = chain(all_reviews, all_tickets)
+        posts: chain[QuerySet] = chain(all_reviews, all_tickets)
         filtered_posts = self.filter_posts(request, posts)
 
         user_posts = self.user_own_posts(request)
@@ -48,7 +54,7 @@ class Feed(LoginRequiredMixin, View):
         return render(request, "base/feed.html", context)
 
     @staticmethod
-    def filter_posts(request, posts):
+    def filter_posts(request, posts) -> list[models.Ticket | models.Review]:
         followed_users = models.UserFollows.objects.filter(user=request.user)
         followed_users = [x.followed_user for x in followed_users]
         filtered_posts = [post for post in posts if
@@ -62,12 +68,12 @@ class Feed(LoginRequiredMixin, View):
             content_type=Value("TICKET", CharField())
         )
 
-        user_models = models.Ticket.objects.filter(user=request.user)
-        user_models = user_models.annotate(
+        user_reviews = models.Review.objects.filter(user=request.user)
+        user_reviews = user_reviews.annotate(
             content_type=Value("REVIEW", CharField())
         )
 
-        user_posts = list(chain(list(user_tickets), list(user_models)))
+        user_posts = list(chain(list(user_tickets), list(user_reviews)))
         return user_posts
 
     @staticmethod
@@ -101,7 +107,7 @@ class ReviewCreationDirect(LoginRequiredMixin, View):
         ticket_form = forms.TicketForm()
         review_form = forms.ReviewForm()
         context = {"ticket_form": ticket_form,
-               "review_form": review_form}
+                   "review_form": review_form}
         return render(request, "base/review_direct_form.html", context)
 
     @staticmethod
@@ -132,7 +138,7 @@ def review_create_response(request, ticket_pk):
     ticket = ticket_list[0]
     review_form = forms.ReviewForm()
     context = {"posts": ticket_list,
-           "review_form": review_form}
+               "review_form": review_form}
 
     # Instead of a class-based view with two methods handling the two
     # request methods GET and POST, I am using the function-based view.
@@ -186,7 +192,7 @@ def edit_review(request, review_pk, ticket_pk):
     ticket_list = [ticket]
     review_form = forms.ReviewForm(instance=review_instance)
     context = {"posts": ticket_list,
-           "review_form": review_form}
+               "review_form": review_form}
 
     if request.method == "POST":
         review_form = forms.ReviewForm(request.POST, instance=review_instance)

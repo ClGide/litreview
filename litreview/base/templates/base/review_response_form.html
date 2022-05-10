@@ -3,6 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Review (in response)</title>
+    <style>
+        .time-created {
+            font-size: 0.7rem;
+        }
+        section.post {
+            display: grid;
+            justify-content: center;
+            grid-template-columns: 500px;
+            gap: 10px 0px;
+        }
+        div.post-container {
+            border: solid 1px black;
+            padding: 10px;
+        }
+        ul.post-attributes {
+            list-style-position: inside;
+            padding-left: 0;
+            list-style-type: none;
+        }
+    </style>
 </head>
 <body>
     {% extends "base/base.html" %}

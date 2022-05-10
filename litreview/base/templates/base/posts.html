@@ -3,34 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <title>Posts</title>
+    <style>
+        ul.post-attributes {
+            list-style-position: inside;
+            padding-left: 0;
+            list-style-type: none;
+        }
+        div.post-container {
+            border: solid 1px black;
+            padding: 10px;
+        }
+        ul.link-buttons-container {
+            height: 30px;
+            padding: 0 10px;
+            display: flex;
+            justify-content: right;
+        }
+        a.link-button {
+            border: solid 1px black;
+            text-align: center;
+            padding: 5px;
+            margin: 2px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        section.post {
+            display: grid;
+            justify-content: center;
+            grid-template-columns: 500px;
+            gap: 10px 0px;
+        }
+        .time-created {
+            font-size: 0.7rem;
+        }
+        .headline {
+            font-size: 1.3rem;
+        }
+        #post-header {
+            text-align:center;
+        }
+    </style>
 </head>
 <body>
     {% extends "base/base.html" %}
 
 
     {% block page %}
-
-    <div style="display: grid; border: 5px transparent; padding:20px; justify-content: center">
-    <h1>Your Posts</h1>
+    <section class="post">
+    <h1 id="post-header">Your Posts</h1>
     <br>
     {% if posts %}
         {% for post in posts %}
+        <div class="post-container">
             {% if post.content_type == "TICKET" %}
                 {% include "base/ticket_snippet.html" %}
-                    (<a href="{% url 'base:ticket_update' post.id %}">Edit</a> |
-                    <a href="{% url 'base:ticket_delete' post.id %}">Delete</a>) <br/>
+                <ul class="link-buttons-container">
+                    <a class="link-button" href="{% url 'base:ticket_update' post.id %}">Edit</a>
+                    <a class="link-button" href="{% url 'base:ticket_delete' post.id %}">Delete</a>
+                </ul>
             {% elif post.content_type == "REVIEW" %}
                 {% include "base/review_snippet.html" %}
-                    (<a href="{% url 'base:review_update' post.id post.ticket.id %}">Edit</a> |
-                    <a href="{% url 'base:review_delete' post.id %}">Delete</a>) <br/>
+                <ul class="link-buttons-container">
+                    <a class="link-button" href="{% url 'base:review_update' post.id post.ticket.id %}">Edit</a>
+                    <a class="link-button" href="{% url 'base:review_delete' post.id %}">Delete</a>
+                </ul>
             {% else %}
                 <li>it's an error</li>
             {% endif %}
+        </div>
         {% endfor %}
     {% else %}
         <p>you have no posts.</p>
     {% endif %}
-    </div>
+    </section>
+
     {% endblock %}
 </body>
 </html>

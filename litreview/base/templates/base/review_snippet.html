@@ -4,10 +4,22 @@
     {% else %}
         <p>{{post.user}} posted a review</p>
     {% endif %}
-    <li>{{ post.time_created }}</li>
-    <li>{{ post.rating }}</li>
-    <li>{{ post.headline }}</li>
-    <li>{{ post.body }}</li>
-
-    <li>Ticket - {{ post.ticket.user }}</li>
-    <li>{{ post.ticket.title }}</li>
+    <ul class="post-attributes">
+        <li class="time-created">{{ post.time_created }}</li>
+<br>
+        <li class="headline">{{ post.headline }}</li>
+        <li>{% load my_filter %}
+            {% for _ in post.rating|times %}
+                <span>★</span>
+            {% endfor %}
+        </li>
+<br>
+        <li>{{ post.body }}</li>
+    </ul>
+    <div class="post-container">
+        <ul class="post-attributes">
+            <li>Ticket - {{ post.ticket.user }}</li>
+<br>
+            <li>{{ post.ticket.title }}</li>
+        </ul>
+    </div>

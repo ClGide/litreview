@@ -3,22 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <title>Base</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        header {
+            padding: 10px;
+        }
+        section.nav-bar {
+            position: relative;
+            border: solid 1px black;
+        }
+        h1.title-page {
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            align-items: center;
+            position: absolute;
+            height: 100%;
+            top: 0;
+            right: 0;
+        }
+        ul.nav-links {
+            display: block;
+            list-style-position: inside;
+            list-style-type: none;
+            padding-left: 0;
+            padding-right: 10px;
+        }
+        ul.nav-links li {
+            display: inline-block;
+            margin-left: 5px;
+        }
+        body {
+            color: black;
+        }
+        a {
+            color: inherit;
+            text-decoration: inherit;
+        }
+    </style>
 </head>
 <body>
 <header>
-    <div style="display: grid; border: 5px transparent; padding:20px; justify-content:center">
-        <h1 style="text-align: center;">LITReview</h1>
-        <ul style="list style: none; float: right">
-            <li style="display:inline;"><a href="{% url 'base:feed' %}">Feed</a></li>
-            <li style="display:inline;"><a href="{% url 'base:posts' %}">Posts</a></li>
-            <li style="display:inline;"><a href="{% url 'base:following' %}">Following</a></li>
-            <li style="display:inline;"><a href="{% url 'logout' %}?next={% url 'login' %}">Logout</a></li>
-        </ul>
-    </div>
-
+        <section class="nav-bar">
+            <h1 class="title-page">LITReview</h1>
+            <nav>
+                <ul class="nav-links">
+                    <li ><a href="{% url 'base:feed' %}">Feed</a></li>
+                    <li ><a href="{% url 'base:posts' %}">Posts</a></li>
+                    <li ><a href="{% url 'base:following' %}">Following</a></li>
+                    <li ><a href="{% url 'logout' %}?next={% url 'login' %}">Logout</a></li>
+                </ul>
+            </nav>
+        </section>
+</header>
     {% block page %}
         <p>Here goes the page's content</p>
     {% endblock %}
-</header>
 </body>
 </html>

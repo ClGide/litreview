@@ -3,25 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <title>Feed</title>
+    <style>
+        ul.post-attributes {
+            list-style-position: inside;
+            padding-left: 0;
+            list-style-type: none;
+        }
+        div.post-container {
+            border: solid 1px black;
+            padding: 10px;
+        }
+        ul.link-buttons-container {
+            height: 30px;
+            padding: 0 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        a.button {
+            border: solid 1px black;
+            text-align: center;
+            padding: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        a.link-big-button {
+            width: 150px;
+            display: block;
+        }
+        a.link-small-button {
+            margin: 2px
+        }
+        section.feed {
+            display: grid;
+            justify-content: center;
+            grid-template-columns: 500px;
+            gap: 10px 0px;
+        }
+        .time-created {
+            font-size: 0.7rem;
+        }
+        .headline {
+            font-size: 1.3rem;
+        }
+    </style>
 </head>
 <body>
     {% extends "base/base.html" %}
 
 
     {% block page %}
-    <div style="display: grid; border: 5px transparent; padding:20px; justify-content: center">
-
-    <ul>
-        <li style="display:inline"><a href="{% url 'base:ticket_creation' %}">Request a Review</a></li>
-        <li style="display:inline"><a href="{% url 'base:review_creation_direct' %}">Post a Review</a></li>
+    <section class="feed">
+    <ul class="link-buttons-container post-attributes">
+        <li><a class="link-big-button button" href="{% url 'base:ticket_creation' %}">Request a Review</a></li>
+        <li><a class="link-big-button button" href="{% url 'base:review_creation_direct' %}">Post a Review</a></li>
     </ul>
 
     {% if posts %}
         {% for post in posts %}
+        <div class="post-container">
             {% if post.content_type == "TICKET" %}
                 {% include "base/ticket_snippet.html" %}
                 {% if post.has_review == False %}
-                    <p><a href="{% url 'base:review_create_response' post.id %}">Post a Review</a></p>
+                    <p><a class="link-small-button button" href="{% url 'base:review_create_response' post.id %}">Post a Review</a></p>
                 {% endif %}
                 <br>
             {% elif post.content_type == "REVIEW" %}
@@ -30,11 +73,12 @@
             {% else %}
                 <p>it's an error</p>
             {% endif %}
+        </div>
         {% endfor %}
     {% else %}
         <p>There are no posts. Follow more people !</p>
     {% endif %}
-    </div>
+    </section>
     {% endblock %}
 </body>
 </html>
