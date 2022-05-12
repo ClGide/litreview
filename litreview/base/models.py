@@ -3,6 +3,8 @@
 A model is a subclass of models.Model. Each model defined below maps
 to one database table. Each class field map to a database field. Each
 instance fills one row in the database.
+If nothing's specified, the fields are exactly those specified in the
+db scheme handed.
 """
 
 
@@ -16,7 +18,10 @@ from django.db import models
 class Ticket(models.Model):
     """Tickets created by the end-user are stored in the DB through this model.
 
-    has_review ...
+    A ticket is a request for review. This request can be met or not. In the
+    feed page, only tickets who doesn't have their request met can receive
+    reviews. Thus, to identify tickets that can receive reviews I added
+    the has_review field.
     """
     title: str = models.CharField(max_length=128)
     description: str = models.TextField(max_length=2048, blank=True)
@@ -47,6 +52,9 @@ class Review(models.Model):
 
 
 class UserFollows(models.Model):
+    """Whenever a user x follows user y, the DB is updated through
+    this model.
+    """
     user: User = models.ForeignKey(
         to=User, on_delete=models.CASCADE, related_name='following')
     followed_user: User = models.ForeignKey(

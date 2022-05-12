@@ -1,7 +1,7 @@
-""" Forms allowing end-users to create and edit Ticket and Review instances.
+"""Forms allowing end-users to create and edit Ticket and Review instances.
 
 Django built-in ModelForm enables easy HTML form creation. Each instance of its
-subclasses it's a form. The forms are based on the model field of the inside
+subclasses is a form. The forms are based on the model field of the inside
 Meta Class.
 """
 
