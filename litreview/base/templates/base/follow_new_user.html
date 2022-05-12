@@ -3,27 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Follow new user</title>
+    <style>
+        section {
+            display:grid;
+            border: 5px transparent;
+            padding: 20px;
+            justify-content: center
+        }
+        li#name {
+            list-style-type: none;
+            font-size: 1.6em;
+        }
+        .button {
+            border: solid 1px black;
+            text-align: center;
+            padding: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
     {% extends "base/base.html" %}
 
     {% block page %}
-    <div style="display: grid; border: 5px transparent; padding:20px; justify-content: center">
-
+    <section>
     {% if to_follow %}
         {% for user in to_follow %}
-            <li>{{user.username}}</li>
+            <li id="name">{{user.username}}</li>
+            </br>
             <form action="" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="id" value="{{ user.id }}">
-                <input type="submit" value="Follow.">
+                <input class="button" type="submit" value="Follow">
             </form>
         {% endfor %}
     {% else %}
         <p>no user was found</p>
     {% endif %}
-    <a href="{% url 'base:following' %}">Come back</a>
-    </div>
+    <a class="button" href="{% url 'base:following' %}">Come back</a>
+    </section>
     {% endblock %}
 </body>
 </html>

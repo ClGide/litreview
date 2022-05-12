@@ -14,6 +14,9 @@
             border: solid 1px black;
             padding: 10px;
         }
+        h2 {
+            text-align:center;
+        }
   </style>
 </head>
 <body>
@@ -28,6 +31,7 @@
         {% csrf_token %}
         <h4>Book/Article</h4>
         {{ ticket_form.as_p }}
+        <br><br>
         <h4>Review</h4>
         {{ review_form.as_p }}
         <input type="submit" value="Save">
@@ -35,6 +39,5 @@
     </div>
     </section>
     {% endblock %}
-
 </body>
 </html>

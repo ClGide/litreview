@@ -3,22 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Unfollow User</title>
+    <style>
+        section {
+            display: grid;
+            border: 5px transparent;
+            padding: 20px;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
     {% extends "base/base.html" %}
 
 
     {% block page %}
-
+    <section>
     <h1>Unfollow user</h1>
-
     <p>Are you sure you want to unfollow {{username}} ?</p>
-
     <form action="" method="POST">
       {% csrf_token %}
-      <input type="submit" value="Yes, delete.">
+      <input type="submit" value="Yes, delete">
       <input type="submit" onclick="window.location='{% url 'base:following' %}' ; return false;" value="Cancel">
     </form>
+    </section>
     {% endblock %}
 </body>
 </html>

@@ -22,6 +22,9 @@
             padding-left: 0;
             list-style-type: none;
         }
+        h2 {
+            text-align:center;
+        }
     </style>
 </head>
 <body>
@@ -29,15 +32,14 @@
 
 
     {% block page %}
-
-    <div style="display: grid; border: 5px transparent; padding:20px; justify-content: center">
+    <section class="post">
+    <div class="post-container">
     <h2>Create a review</h2>
-
     <h4>You are posting in response to</h4>
     {% for post in posts %}
         {% include "base/ticket_snippet.html" %}
     {% endfor %}
-
+    <br><br>
     <h4>Review</h4>
     <form action="" method="post">
         {% csrf_token %}
@@ -45,6 +47,7 @@
         <input type="submit" value="submit">
     </form>
     </div>
+    </section>
     {% endblock %}
 </body>
 </html>

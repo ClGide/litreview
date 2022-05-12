@@ -22,6 +22,9 @@
             padding-left: 0;
             list-style-type: none;
         }
+        h2 {
+            text-align:center;
+        }
     </style>
 </head>
 <body>
@@ -30,24 +33,19 @@
 
     {% block page %}
     <section class="post">
-        <h2>Edit your review</h2>
-    {% if "edit_review" in request.path %}
-    {% else %}
-        <h2>Create your review</h2>
-    {% endif %}
-
     <div class="post-container">
-        {% for post in posts %}
+    <h2>Edit your review</h2>
+    {% for post in posts %}
         {% include "base/ticket_snippet.html" %}
     {% endfor %}
-    </div>
-
+    <br><br>
     <h4>Review</h4>
     <form action="" method="post">
         {% csrf_token %}
         {{ review_form.as_p }}
         <input type="submit" value="submit">
     </form>
+    </div>
     </section>
     {% endblock %}
 </body>

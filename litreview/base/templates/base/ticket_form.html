@@ -2,15 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Create Ticket</title>
+    <title>Create or edit a Ticket</title>
+    <style>
+        section.post {
+            display: grid;
+            justify-content: center;
+            grid-template-columns: 500px;
+            gap: 10px 0px;
+        }
+        h2 {
+            text-align:center;
+        }
+    </style>
 </head>
 <body>
     {% extends "base/base.html" %}
 
 
     {% block page %}
-
-    <div style="display: grid; border: 5px transparent; padding:20px; justify-content: center">
+    <section class="post">
     {% if "edit_ticket" in request.path %}
         <h2>Edit a ticket</h2>
     {% else %}
@@ -21,7 +31,7 @@
         {{ form.as_p }}
         <input type="submit" value="submit">
     </form>
-    </div>
+    </section>
     {% endblock %}
 </body>
 </html>
